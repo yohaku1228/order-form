@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ご注文</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;color:#20302c;background:#f4f6f5;line-height:1.65;font-size:15px}*{box-sizing:border-box}body{margin:0}main{max-width:920px;margin:40px auto;padding:0 22px 48px}h1{font-size:26px;margin:0 0 24px}h2{font-size:19px;margin:0 0 20px}h3{font-size:17px;margin:0}.panel,.destination{background:white;border:1px solid #dce3df;border-radius:10px;padding:26px;margin-bottom:22px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 24px}.wide{grid-column:1/-1}label{display:block;font-weight:600;font-size:14px}input,select,textarea{font:inherit;width:100%;padding:11px 12px;border:1px solid #b9c6be;border-radius:5px;background:white;color:inherit;margin-top:6px}input:focus,select:focus,textarea:focus{outline:3px solid #d9e8de;border-color:#346d50}input[readonly]{background:#f4f6f5}input[type=checkbox]{width:18px;height:18px;margin:0;accent-color:#346d50}.check{display:flex;align-items:center;gap:10px;margin:20px 0}.muted,.hint{color:#5b6b63;font-size:13px;font-weight:400}.hint{display:block;min-height:1.65em;margin-top:4px}.optional{font-size:12px;font-weight:400;margin-left:5px;color:#637267}button{font:inherit;cursor:pointer;border:1px solid #9aada0;background:white;border-radius:5px;padding:10px 17px;color:#234a35}button:hover{background:#eef4ef}button:focus-visible,a:focus-visible{outline:3px solid #86b695;outline-offset:3px}.primary{background:#2e6448;border-color:#2e6448;color:white;font-weight:600;padding:14px 25px}.primary:hover{background:#245139}.head{display:flex;justify-content:space-between;align-items:center;gap:12px}.remove{font-size:13px;padding:5px 12px;color:#82544b}.totals{display:flex;justify-content:space-between;align-items:center;gap:16px;border-top:1px solid #dce3df;margin-top:24px;padding-top:18px}.money{font-size:23px;font-weight:700;white-space:nowrap}.grand{font-size:30px}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}.error{color:#ad3529}.status{white-space:pre-wrap;font-size:14px}textarea{min-height:220px;font-size:13px}details{margin-top:20px}summary{cursor:pointer;color:#345d45}a{color:#345d45}[hidden]{display:none!important}noscript{display:block;color:#a33}.billing{border-left:3px solid #789c80;padding-left:14px;margin:22px 0 12px}@media(max-width:600px){main{margin:22px auto;padding:0 14px 30px}.grid{grid-template-columns:1fr}.panel,.destination{padding:20px 16px}.wide{grid-column:auto}h1{font-size:23px}.totals{align-items:flex-start}.money{font-size:20px}.grand{font-size:25px}.primary{width:100%}}
+</style>
+</head>
+<body><main>
+<h1>ご注文</h1>
+<noscript>ご注文にはJavaScriptを有効にしてください。</noscript>
+<form id="orderForm">
+<section class="panel" id="sender"><h2>1. 依頼主情報</h2>
+<div class="grid">
+<label>郵便番号<input name="postal" autocomplete="section-sender postal-code" inputmode="numeric" placeholder="990-0000" pattern="[0-9０-９]{3}[-ー－]?[0-9０-９]{4}" required><span class="hint postal-status" aria-live="polite">7桁で住所を自動入力</span></label>
+<label>氏名<input name="person" autocomplete="section-sender name" required maxlength="100"></label>
+<label class="wide">住所<input name="address" autocomplete="section-sender street-address" placeholder="都道府県・市区町村・番地・建物名" required maxlength="250"></label>
+<label>電話番号<input name="phone" type="tel" autocomplete="section-sender tel" required maxlength="30"></label>
+</div></section>
+<h2>2. 配送・注文情報</h2><div id="destinations"></div>
+<button id="add" type="button">＋ 送付先を追加</button>
+<section class="panel" style="margin-top:24px"><h2>3. 合計・ご注文</h2>
+<p class="muted">山形県発送／ヤマト運輸・通常便80サイズ。1箱＝1個口として、個数分の送料を計算します（税込・割引なし）。</p>
+<div class="totals" aria-live="polite"><span>総合計（税込）<br><small id="count" class="muted"></small></span><output id="grandTotal" class="money grand">—</output></div>
+<p class="billing">請求方法：商品は発送し、請求書は後日郵送いたします</p>
+<div aria-hidden="true" style="position:absolute;left:-10000px"><input name="_gotcha" tabindex="-1" autocomplete="off"></div>
+<div class="actions"><button type="submit" class="primary" id="submitOrder">注文する</button></div>
+<p id="status" class="status" role="status"></p>
+</section></form>
+<template id="destinationTemplate"><section class="destination">
+<div class="head"><h3 class="destination-title"></h3><button type="button" class="remove">削除</button></div>
+<label class="check"><input type="checkbox" name="pickup">直接引き取り（送料0円）</label>
+<div class="grid">
+<label>送付先郵便番号<input name="postal" inputmode="numeric" placeholder="990-0000" pattern="[0-9０-９]{3}[-ー－]?[0-9０-９]{4}" required><span class="hint postal-status" aria-live="polite">7桁で住所を自動入力</span></label>
+<label>送付先氏名<input name="person" required maxlength="100"></label>
+<label class="wide">送付先住所<input name="address" placeholder="都道府県・市区町村・番地・建物名" required maxlength="250"></label>
+<label>送付先電話番号<span class="optional">任意</span><input name="phone" type="tel" maxlength="30"></label>
+<label>商品名<select name="product"></select></label>
+<label>単価（税込）<input name="unit" readonly></label>
+<label>注文個数<input name="quantity" type="number" min="1" max="999" step="1" value="1" required></label>
+<label class="wide date-field">希望発送日<span class="optional">任意</span><input name="date" type="date"><span class="hint">※収穫・美味しい時期に合わせて動的に発送するため、ご希望に添えない場合があります（お任せ）</span></label>
+</div><div class="totals"><span>送料（税込）<br><small class="shipping-description muted"></small></span><output class="shipping money">—</output></div>
+<div class="totals" aria-live="polite"><span>小計（税込）</span><output class="subtotal money">—</output></div>
+</section></template>
+<script>
+'use strict';
+// 管理者用設定。商品はこの配列へ追加すると選択肢・単価に自動反映されます。
+const CONFIG = {email:'spvv8fc9a@yahoo.co.jp',origin:'山形県',samePrefectureRate:1090,apiUrl:'https://formspree.io/f/mgaaajej'};
+const PRODUCTS = [{id:'lafrance3',name:'ラ・フランス 3kg 化粧箱',price:3630}];
+// 山形県（南東北）発・通常便80サイズ・税込・現金基本運賃。1箱1個口。
+// 出典 https://www.kuronekoyamato.co.jp/ytc/search/estimate/ichiran.html（2026-10-27確認）
+const REGIONS = [
+ {name:'北海道',prefs:['北海道'],rate:1610},
+ {name:'北東北',prefs:['青森県','岩手県','秋田県'],rate:1230},
+ {name:'南東北',prefs:['宮城県','山形県','福島県'],rate:1230},
+ {name:'関東',prefs:['茨城県','栃木県','群馬県','埼玉県','千葉県','東京都','神奈川県','山梨県'],rate:1230},
+ {name:'信越',prefs:['新潟県','長野県'],rate:1230},
+ {name:'北陸',prefs:['富山県','石川県','福井県'],rate:1350},
+ {name:'中部',prefs:['岐阜県','静岡県','愛知県','三重県'],rate:1350},
+ {name:'関西',prefs:['滋賀県','京都府','大阪府','兵庫県','奈良県','和歌山県'],rate:1480},
+ {name:'中国',prefs:['鳥取県','島根県','岡山県','広島県','山口県'],rate:1740},
+ {name:'四国',prefs:['徳島県','香川県','愛媛県','高知県'],rate:1740},
+ {name:'九州',prefs:['福岡県','佐賀県','長崎県','熊本県','大分県','宮崎県','鹿児島県'],rate:2050},
+ {name:'沖縄',prefs:['沖縄県'],rate:2380}
+];
+const $ = (s,root=document)=>root.querySelector(s);
+const field=(root,name)=>root.querySelector(`[name="${name}"]`);
+const yen=n=>new Intl.NumberFormat('ja-JP',{style:'currency',currency:'JPY',maximumFractionDigits:0}).format(n);
+const cards=()=>[...document.querySelectorAll('.destination')];
+const normalize=s=>s.normalize('NFKC').trim();
+const postalValue=input=>normalize(input.value).replace(/[-ー－\s]/g,'');
+function calculation(card){
+ const product=PRODUCTS.find(p=>p.id===field(card,'product').value);
+ const quantity=Number(field(card,'quantity').value);
+ const validQuantity=Number.isInteger(quantity)&&quantity>=1&&quantity<=999;
+ const pickup=field(card,'pickup').checked;
+ const address=normalize(field(card,'address').value);
+ const region=REGIONS.find(r=>r.prefs.some(p=>address.startsWith(p)));
+ const prefecture=region?.prefs.find(p=>address.startsWith(p));
+ const rate=pickup?0:prefecture===CONFIG.origin?CONFIG.samePrefectureRate:region?.rate;
+ const shipping=validQuantity&&rate!==undefined?rate*quantity:null;
+ return {product,quantity,pickup,region,prefecture,rate,shipping,total:shipping===null?null:product.price*quantity+shipping};
+}
+function update(){
+ let total=0,complete=true,boxes=0;
+ cards().forEach((card,i)=>{
+  $('.destination-title',card).textContent=`送付先 ${i+1}`;
+  $('.remove',card).hidden=cards().length===1;
+  const c=calculation(card);
+  field(card,'unit').value=yen(c.product.price);
+  $('.date-field',card).hidden=c.pickup;
+  field(card,'date').disabled=c.pickup;
+  for(const key of ['postal','address'])field(card,key).required=!c.pickup;
+  $('.shipping',card).textContent=c.shipping===null?'未確定':yen(c.shipping);
+  $('.shipping-description',card).textContent=c.pickup?'直接引き取り':c.rate===undefined?'都道府県を含む住所を入力':`${c.prefecture===CONFIG.origin?'山形県内':c.region.name} ／ ${yen(c.rate)} × ${c.quantity}個口`;
+  $('.subtotal',card).textContent=c.total===null?'未確定':yen(c.total);
+  if(c.total===null)complete=false;else total+=c.total;
+  if(Number.isInteger(c.quantity)&&c.quantity>0)boxes+=c.quantity;
+ });
+ $('#grandTotal').textContent=complete?yen(total):'未確定';
+ $('#count').textContent=`${cards().length}件・${boxes}箱`;
+ $('#status').textContent='';
+}
+let callbackId=0;
+function jsonpPostal(zip){
+ return new Promise((resolve,reject)=>{
+  const name=`zipcloudCallback${++callbackId}`;
+  const script=document.createElement('script');
+  const finish=()=>{clearTimeout(timer);script.remove();delete window[name];};
+  const timer=setTimeout(()=>{finish();reject(new Error('住所検索がタイムアウトしました。手入力するか再入力してください。'));},10000);
+  window[name]=data=>{finish();data.status===200?resolve(data.results):reject(new Error(data.message||'住所検索に失敗しました。'));};
+  script.onerror=()=>{finish();reject(new Error('住所検索に接続できません。住所を手入力してください。'));};
+  script.src=`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${encodeURIComponent(zip)}&callback=${name}`;
+  document.head.append(script);
+ });
+}
+function setupPostal(root){
+ const input=field(root,'postal'),address=field(root,'address'),status=$('.postal-status',root);
+ let generation=0,lastRequested='';
+ async function lookup(){
+  const zip=postalValue(input),current=++generation;
+  if(!/^\d{7}$/.test(zip)){lastRequested='';status.textContent='7桁で住所を自動入力';return;}
+  if(zip===lastRequested)return;
+  lastRequested=zip;
+  const previousAddress=address.value;
+  status.textContent='住所を検索中…';
+  try{
+   const results=await jsonpPostal(zip);
+   if(current!==generation||!root.isConnected||postalValue(input)!==zip||submitting||completed)return;
+   if(!results?.length){lastRequested='';status.textContent='該当する住所がありません。住所を手入力してください。';return;}
+   if(address.value!==previousAddress){status.textContent='入力中の住所を維持しました。郵便番号との一致をご確認ください。';return;}
+   const candidates=[...new Set(results.map(r=>r.address1+r.address2+r.address3))];
+   address.value=candidates.length===1?candidates[0]:results[0].address1+results[0].address2;
+   status.textContent=candidates.length===1?'住所を入力しました。番地・建物名を追記してください。':'複数の町域があります。町名・番地・建物名を追記してください。';
+   update();
+  }catch(error){if(current===generation){lastRequested='';status.textContent=error.message;}}
+ }
+ input.addEventListener('input',lookup);
+ input.addEventListener('blur',()=>{if(postalValue(input)!==lastRequested)lookup();});
+}
+let destinationId=0;
+function addDestination(){
+ const card=$('#destinationTemplate').content.firstElementChild.cloneNode(true);
+ const id=++destinationId;
+ card.querySelectorAll('input,select').forEach(input=>{input.autocomplete=`section-destination${id} ${ {postal:'postal-code',person:'name',address:'street-address',phone:'tel'}[input.name]||'off'}`;if(!['postal','person','address','phone'].includes(input.name))input.autocomplete='off';});
+ PRODUCTS.forEach(p=>field(card,'product').add(new Option(p.name,p.id)));
+ const today=new Date();today.setMinutes(today.getMinutes()-today.getTimezoneOffset());field(card,'date').min=today.toISOString().slice(0,10);
+ $('.remove',card).addEventListener('click',()=>{card.remove();update();});
+ $('#destinations').append(card);setupPostal(card);update();
+ return card;
+}
+
+let submitting=false,completed=false,pendingRequest=null;
+function orderData(){
+ const value=(root,key)=>field(root,key).value.trim();
+ const person=root=>Object.fromEntries(['postal','person','address','phone'].map(key=>[key,value(root,key)]));
+ return {quotedTotal:cards().reduce((sum,card)=>sum+calculation(card).total,0),sender:person($('#sender')),destinations:cards().map(card=>({
+  ...person(card),pickup:field(card,'pickup').checked,product:field(card,'product').value,
+  quantity:Number(value(card,'quantity')),date:field(card,'pickup').checked?'':value(card,'date')
+ }))};
+}
+function orderMessage(order){
+ const sender=order.sender;
+ const lines=['ご注文がありました。','照会番号：'+order.requestId,'','【依頼主】','郵便番号：'+sender.postal,'氏名：'+sender.person,'住所：'+sender.address,'電話番号：'+sender.phone];
+ order.destinations.forEach((d,i)=>{
+  const product=PRODUCTS.find(p=>p.id===d.product);
+  const region=REGIONS.find(r=>r.prefs.some(p=>normalize(d.address).startsWith(p)));
+  const rate=d.pickup?0:normalize(d.address).startsWith(CONFIG.origin)?CONFIG.samePrefectureRate:region.rate;
+  const shipping=rate*d.quantity;
+  lines.push('','【送付先 '+(i+1)+'】','受取方法：'+(d.pickup?'直接引き取り':'配送'),'郵便番号：'+(d.postal||'—'),'氏名：'+d.person,'住所：'+(d.address||'—'),'電話番号：'+(d.phone||'未記入'),'商品名：'+product.name,'単価（税込）：'+yen(product.price),'注文個数：'+d.quantity+'箱','希望発送日：'+(d.pickup?'対象外':d.date||'お任せ'),'送料（税込）：'+yen(shipping)+'（'+yen(rate)+' × '+d.quantity+'個口）','小計（税込）：'+yen(product.price*d.quantity+shipping));
+ });
+ lines.push('','総合計（税込）：'+yen(order.quotedTotal),'山形県発送／ヤマト運輸・通常便80サイズ／1箱1個口','※収穫・美味しい時期に合わせて動的に発送するため、ご希望に添えない場合があります（お任せ）','請求方法：商品は発送し、請求書は後日郵送いたします');
+ return lines.join('\n');
+}
+$('#orderForm').addEventListener('input',()=>{if(!submitting&&!completed){pendingRequest=null;update();}});
+$('#orderForm').addEventListener('change',()=>{if(!submitting&&!completed){pendingRequest=null;update();}});
+$('#add').addEventListener('click',()=>{if(submitting||completed)return;pendingRequest=null;const card=addDestination();field(card,'postal').focus();});
+$('#orderForm').addEventListener('submit',async event=>{
+ event.preventDefault();if(submitting||completed||!$('#orderForm').reportValidity())return;
+ for(const card of cards())if(calculation(card).total===null){$('#status').textContent='送付先住所を都道府県から入力してください。';field(card,'address').focus();return;}
+ if(!CONFIG.apiUrl){$('#status').textContent='現在、注文受付の準備中です。時間をおいて再度お試しください。';return;}
+ const data=orderData();
+ // 同じ画面内の再試行には同じ照会番号を付け、重複を照合できるようにします。
+ if(!pendingRequest)pendingRequest={requestId:crypto.randomUUID(),...data};
+ submitting=true;
+ const controls=[...$('#orderForm').querySelectorAll('input,select,button')];
+ const original=controls.map(control=>control.disabled);
+ controls.forEach(control=>control.disabled=true);
+ $('#submitOrder').textContent='送信中…';$('#status').textContent='';
+ try{
+  const payload={subject:'ご注文を受け付けました【'+pendingRequest.requestId+'】',message:orderMessage(pendingRequest),order_id:pendingRequest.requestId,_gotcha:field($('#orderForm'),'_gotcha').value};
+  const response=await fetch(CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)});
+  const result=await response.json();
+  if(!response.ok||result.ok!==true){const failure=new Error(result.errors?.map(e=>e.message).join('／')||result.error||'注文を確認できませんでした。再度お試しください。');failure.confirmedFailure=true;throw failure;}
+  completed=true;
+  $('#status').textContent='ご注文を受け付けました。照会番号：'+pendingRequest.requestId;
+  $('#submitOrder').textContent='受付完了';
+ }catch(error){
+  controls.forEach((control,i)=>control.disabled=original[i]);
+  $('#submitOrder').textContent='注文する';
+  $('#status').textContent=error.confirmedFailure?error.message:'受付結果を確認できませんでした。注文が届いている可能性があります。重複を避けるため、照会番号 '+pendingRequest.requestId+' を控えてお問い合わせください。';
+ }finally{submitting=false;}
+});
+setupPostal($('#sender'));addDestination();
+</script></main></body></html>
+
