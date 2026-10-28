@@ -1,0 +1,8 @@
+{
+  "name": "order-settings",
+  "main": "settings-worker.js",
+  "compatibility_date": "2026-10-28",
+  "workers_dev": true,
+  "d1_databases": [{"binding":"DB","database_name":"order-settings-data","database_id":"cdc6b8d0-1b28-4cd1-a14b-ea4b15b7b0f6"}]
+}
+
