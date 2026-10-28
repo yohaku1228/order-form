@@ -4,11 +4,14 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ご注文</title>
 <style>
-:root{font-family:system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;color:#20302c;background:#f4f6f5;line-height:1.65;font-size:15px}*{box-sizing:border-box}body{margin:0}main{max-width:920px;margin:40px auto;padding:0 22px 48px}h1{font-size:26px;margin:0 0 24px}h2{font-size:19px;margin:0 0 20px}h3{font-size:17px;margin:0}.panel,.destination{background:white;border:1px solid #dce3df;border-radius:10px;padding:26px;margin-bottom:22px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 24px}.wide{grid-column:1/-1}label{display:block;font-weight:600;font-size:14px}input,select,textarea{font:inherit;width:100%;padding:11px 12px;border:1px solid #b9c6be;border-radius:5px;background:white;color:inherit;margin-top:6px}input:focus,select:focus,textarea:focus{outline:3px solid #d9e8de;border-color:#346d50}input[readonly]{background:#f4f6f5}input[type=checkbox]{width:18px;height:18px;margin:0;accent-color:#346d50}.check{display:flex;align-items:center;gap:10px;margin:20px 0}.muted,.hint{color:#5b6b63;font-size:13px;font-weight:400}.hint{display:block;min-height:1.65em;margin-top:4px}.optional{font-size:12px;font-weight:400;margin-left:5px;color:#637267}button{font:inherit;cursor:pointer;border:1px solid #9aada0;background:white;border-radius:5px;padding:10px 17px;color:#234a35}button:hover{background:#eef4ef}button:focus-visible,a:focus-visible{outline:3px solid #86b695;outline-offset:3px}.primary{background:#2e6448;border-color:#2e6448;color:white;font-weight:600;padding:14px 25px}.primary:hover{background:#245139}.head{display:flex;justify-content:space-between;align-items:center;gap:12px}.remove{font-size:13px;padding:5px 12px;color:#82544b}.totals{display:flex;justify-content:space-between;align-items:center;gap:16px;border-top:1px solid #dce3df;margin-top:24px;padding-top:18px}.money{font-size:23px;font-weight:700;white-space:nowrap}.grand{font-size:30px}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}.error{color:#ad3529}.status{white-space:pre-wrap;font-size:14px}textarea{min-height:220px;font-size:13px}details{margin-top:20px}summary{cursor:pointer;color:#345d45}a{color:#345d45}[hidden]{display:none!important}noscript{display:block;color:#a33}.billing{border-left:3px solid #789c80;padding-left:14px;margin:22px 0 12px}@media(max-width:600px){main{margin:22px auto;padding:0 14px 30px}.grid{grid-template-columns:1fr}.panel,.destination{padding:20px 16px}.wide{grid-column:auto}h1{font-size:23px}.totals{align-items:flex-start}.money{font-size:20px}.grand{font-size:25px}.primary{width:100%}}
+:root{color-scheme:dark;font-family:"Yu Gothic", "Hiragino Kaku Gothic ProN",system-ui,sans-serif;color:#eee9df;background:#10100f;line-height:1.7;font-size:15px;--gold:#d4b77b;--line:#39342a;--muted:#aaa69d}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 12% 0%,#28251d 0,transparent 43%),#10100f}main{max-width:1060px;margin:0 auto;padding:35px 30px 65px}.page-head{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #66543a;padding-bottom:24px;margin-bottom:30px}.eyebrow{font-size:11px;letter-spacing:.28em;color:var(--gold);margin-bottom:5px}h1{font-family:"Yu Mincho",serif;font-weight:500;letter-spacing:.16em;font-size:34px;margin:0}h2{font-size:19px;letter-spacing:.06em;margin:0 0 23px;font-weight:500}h3{font-size:17px;margin:0;font-weight:500}h2:before{content:"";display:inline-block;width:3px;height:18px;background:var(--gold);margin-right:12px;vertical-align:-2px}.panel,.destination{background:#191917;border:1px solid var(--line);border-radius:3px;padding:30px;margin-bottom:26px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px 28px}.wide{grid-column:1/-1}label{display:block;font-weight:500;font-size:14px;color:#ddd7ca}input,select,textarea{font:inherit;width:100%;padding:12px 13px;border:1px solid #4b473e;border-radius:2px;background:#111210;color:#f6f2e9;margin-top:7px;min-height:48px}input::placeholder{color:#827f77}input:focus,select:focus,textarea:focus{outline:2px solid #8e774f;outline-offset:2px;border-color:var(--gold)}input[readonly]{background:#24241f;color:var(--gold)}input[type=checkbox]{width:19px;min-height:19px;height:19px;margin:0;accent-color:var(--gold)}.check{display:flex;align-items:center;gap:11px;margin:23px 0}.muted,.hint{color:var(--muted);font-size:12px;font-weight:400}.hint{display:block;min-height:1.7em;margin-top:5px}.optional{font-size:11px;font-weight:400;margin-left:8px;color:var(--muted)}button{font:inherit;cursor:pointer;border:1px solid #7a6745;background:transparent;border-radius:2px;padding:11px 19px;color:#e0c795;transition:background .18s,color .18s}button:hover{background:#332c20}button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:4px}button:disabled{opacity:.6;cursor:default}.primary{background:linear-gradient(110deg,#e0c795,#b99a5e);border-color:#d4b77b;color:#18150f;font-weight:700;padding:15px 29px;min-width:250px;letter-spacing:.06em}.primary:hover{background:#e8d5ae}.head{display:flex;justify-content:space-between;align-items:center;gap:12px}.remove{font-size:12px;padding:5px 12px;color:#c9b8a5;border-color:#504739}.totals{display:flex;justify-content:space-between;align-items:center;gap:16px;border-top:1px solid var(--line);margin-top:24px;padding-top:20px}.money{font-size:25px;font-weight:500;white-space:nowrap;letter-spacing:.01em;font-variant-numeric:tabular-nums;color:#e3cc9d}.grand{font-size:36px}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}.error{color:#ffb4a8}.status{white-space:pre-wrap;font-size:14px;color:#e7cf9b}textarea{min-height:100px}a{color:#e3cc9d}[hidden]{display:none!important}noscript{display:block;color:#ffb4a8}.billing{border-left:2px solid #8e774f;padding-left:15px;margin:25px 0 13px;font-size:14px}.showcase{display:grid;grid-template-columns:1.28fr 1fr;min-height:360px;margin-bottom:38px;background:#1a1b17;border:1px solid var(--line)}.showcase-main{width:100%;height:100%;min-height:360px;max-height:430px;object-fit:cover}.showcase-info{padding:30px;display:flex;flex-direction:column;justify-content:center}.showcase-info h2:before{display:none}.showcase-info h2{font-family:"Yu Mincho",serif;font-size:25px;line-height:1.8;margin:6px 0 12px;letter-spacing:.08em}.showcase-price{font-size:30px;color:#e4c98f;letter-spacing:.03em}.showcase-price small{font-size:12px;margin-left:10px;color:var(--muted)}.box-detail{display:flex;align-items:center;gap:17px;padding-top:24px;margin-top:24px;border-top:1px solid var(--line)}.box-detail img{width:95px;height:110px;object-fit:cover;border:1px solid #5f533e}.product-mini{display:flex;align-items:center;gap:12px;margin-top:15px;color:var(--muted);font-size:12px}.product-mini img{width:56px;height:62px;object-fit:cover}.product-mini span{flex:1}.section-spacer{margin-top:38px}.footer-note{margin-top:30px;text-align:center;font-size:11px;letter-spacing:.12em;color:#827e72}.settings-button{font-size:12px;padding:8px 14px}.admin-preview{padding:10px 15px;border:1px solid #8d7649;color:#e6cc97;font-size:13px;margin-bottom:18px}dialog{width:min(850px,calc(100% - 28px));max-height:90dvh;overflow:auto;border:1px solid #8b744a;border-radius:4px;background:#191917;color:#eee9df;padding:28px}dialog::backdrop{background:#000b;backdrop-filter:blur(5px)}dialog h2:before{display:none}.admin-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.admin-heading h2{margin:0}.close-dialog{padding:5px 12px;font-size:14px}.admin-card{border:1px solid var(--line);padding:20px;margin:20px 0}.admin-card h3{color:var(--gold);margin-bottom:18px}.admin-grid{display:grid;grid-template-columns:1fr 140px;gap:15px}.admin-row{padding:15px 0;border-bottom:1px solid var(--line)}.admin-row .check{margin:10px 0}.admin-help{font-size:12px;color:#b7b0a1;line-height:1.9}.small-button{font-size:12px;padding:7px 12px}.admin-status{font-size:13px;white-space:pre-wrap;color:#e3cc9d}.password-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.public-status{font-size:12px;color:#b9b3a6;margin:10px 0}.product-badge{font-size:11px;color:var(--gold);letter-spacing:.18em}.empty-picture{padding:55px 20px;border:1px solid var(--line);color:var(--muted);text-align:center}.admin-card input[type=file]{font-size:12px}.top-summary{color:var(--muted);font-size:12px;letter-spacing:.08em}
+@media(max-width:700px){main{padding:22px 17px 40px}.page-head{padding-bottom:20px;margin-bottom:22px}h1{font-size:28px}.grid{grid-template-columns:1fr}.panel,.destination{padding:24px 19px}.wide{grid-column:auto}.showcase{grid-template-columns:1fr;min-height:0;margin-bottom:30px}.showcase-main{height:245px;min-height:0;max-height:245px}.showcase-info{padding:23px}.showcase-info h2{font-size:23px;margin-top:0}.box-detail{padding-top:17px;margin-top:17px}.box-detail img{width:70px;height:82px}.money{font-size:23px}.grand{font-size:30px}.totals{align-items:flex-start}.primary{width:100%}.admin-grid,.password-grid{grid-template-columns:1fr}dialog{padding:22px 17px}.admin-card{padding:15px}.admin-grid{gap:10px}.showcase-price{font-size:28px}.product-mini{margin-bottom:5px}}
 </style>
 </head>
 <body><main>
-<h1>ご注文</h1>
+<header class="page-head"><div><div class="eyebrow">ORDER</div><h1>ご注文</h1></div><button type="button" id="openSettings" class="settings-button" aria-haspopup="dialog">設定</button></header>
+<div id="adminPreview" class="admin-preview" hidden>設定のプレビュー中です。お客様への反映には「サイト全体に公開」を実行してください。</div>
+<section class="showcase" id="productShowcase" aria-label="選択した商品"><img id="showcaseImage" class="showcase-main" src="assets/lafrance-orchard.jpg" alt="果樹園で実ったラ・フランス"><div class="showcase-info"><span class="product-badge">商品</span><h2 id="showcaseName">ラ・フランス 3kg 化粧箱</h2><div class="showcase-price"><span id="showcasePrice">￥3,600</span><small>税込／1箱</small></div><div class="box-detail" id="boxDetail"><img src="assets/lafrance-box.jpg" alt="ラ・フランスの化粧箱" loading="lazy"><span class="muted">ラ・フランス<br>3kg 化粧箱</span></div></div></section>
 <noscript>ご注文にはJavaScriptを有効にしてください。</noscript>
 <form id="orderForm">
 <section class="panel" id="sender"><h2>1. 依頼主情報</h2>
@@ -18,7 +21,7 @@
 <label class="wide">住所<input name="address" autocomplete="section-sender street-address" placeholder="都道府県・市区町村・番地・建物名" required maxlength="250"></label>
 <label>電話番号<input name="phone" type="tel" autocomplete="section-sender tel" required maxlength="30"></label>
 </div></section>
-<h2>2. 配送・注文情報</h2><div id="destinations"></div>
+<h2 class="section-spacer">2. 配送・注文情報</h2><div id="destinations"></div>
 <button id="add" type="button">＋ 送付先を追加</button>
 <section class="panel" style="margin-top:24px"><h2>3. 合計・ご注文</h2>
 <p class="muted">山形県発送／ヤマト運輸・通常便80サイズ。1箱＝1個口として、個数分の送料を計算します（税込・割引なし）。</p>
@@ -28,6 +31,14 @@
 <div class="actions"><button type="submit" class="primary" id="submitOrder">注文する</button></div>
 <p id="status" class="status" role="status"></p>
 </section></form>
+
+<dialog id="settingsDialog" aria-labelledby="settingsTitle"><div class="admin-heading"><h2 id="settingsTitle">商品設定</h2><button type="button" class="close-dialog" id="closeSettings" aria-label="設定を閉じる">閉じる</button></div>
+<form id="adminLogin"><label>設定パスワード<input type="password" id="adminPassword" autocomplete="current-password" required></label><p class="admin-help">初期パスワード：admin</p><button class="primary" type="submit">設定を開く</button><p id="loginStatus" class="admin-status" role="status"></p></form>
+<div id="adminContent" hidden><p class="admin-help">商品追加・単価変更はこの端末で確認できます。お客様全員に反映するときは、下の「サイト全体に公開」を使用してください。</p>
+<form id="catalogForm"><div id="adminProducts"></div><button type="button" id="addProduct">＋ 商品を追加</button><div class="actions"><button type="submit" class="primary">この端末に保存・表示</button><button type="button" id="discardDraft">公開中の設定に戻す</button></div></form>
+<section class="admin-card"><h3>サイト全体に公開</h3><p class="admin-help">GitHubの order-form リポジトリに対する Contents: Read and write 権限を持つトークンを入力してください。トークンはこの画面での送信にだけ使用し、保存しません。公開反映には1〜2分程度かかります。</p><label>GitHubトークン<input type="password" id="githubToken" autocomplete="off" placeholder="github_pat_…"></label><div class="actions"><button type="button" class="primary" id="publishCatalog">サイト全体に公開</button><button type="button" id="exportCatalog">公開用ファイルを保存</button></div><p class="admin-help">トークンを使わない場合は、保存した catalog.js をGitHubリポジトリの同名ファイルに上書きしてください。</p></section>
+<form id="changePassword" class="admin-card"><h3>パスワード変更</h3><div class="password-grid"><label>新しいパスワード<input type="password" id="newPassword" autocomplete="new-password" minlength="6" required></label><label>もう一度入力<input type="password" id="confirmPassword" autocomplete="new-password" minlength="6" required></label></div><div class="actions"><button type="submit">パスワードを変更</button></div><p class="admin-help">このパスワードは端末内の操作ロックです。変更はこのブラウザーに保存します。公開の変更権限はGitHub側で管理されます。</p></form><p id="adminStatus" class="admin-status" role="status"></p><div class="actions"><button type="button" id="lockSettings">設定をロック</button></div></div></dialog>
+
 <template id="destinationTemplate"><section class="destination">
 <div class="head"><h3 class="destination-title"></h3><button type="button" class="remove">削除</button></div>
 <label class="check"><input type="checkbox" name="pickup">直接引き取り（送料0円）</label>
@@ -36,18 +47,37 @@
 <label>送付先氏名<input name="person" required maxlength="100"></label>
 <label class="wide">送付先住所<input name="address" placeholder="都道府県・市区町村・番地・建物名" required maxlength="250"></label>
 <label>送付先電話番号<span class="optional">任意</span><input name="phone" type="tel" maxlength="30"></label>
-<label>商品名<select name="product"></select></label>
+<label>商品名<select name="product"></select></label><div class="product-mini" aria-live="polite"><img alt="選択した商品" loading="lazy"><span></span></div>
 <label>単価（税込）<input name="unit" readonly></label>
 <label>注文個数<input name="quantity" type="number" min="1" max="999" step="1" value="1" required></label>
 <label class="wide date-field">希望発送日<span class="optional">任意</span><input name="date" type="date"><span class="hint">※収穫・美味しい時期に合わせて動的に発送するため、ご希望に添えない場合があります（お任せ）</span></label>
 </div><div class="totals"><span>送料（税込）<br><small class="shipping-description muted"></small></span><output class="shipping money">—</output></div>
 <div class="totals" aria-live="polite"><span>小計（税込）</span><output class="subtotal money">—</output></div>
 </section></template>
+<script src="catalog.js"></script>
 <script>
 'use strict';
 // 管理者用設定。商品はこの配列へ追加すると選択肢・単価に自動反映されます。
 const CONFIG = {email:'spvv8fc9a@yahoo.co.jp',origin:'山形県',samePrefectureRate:1090,apiUrl:'https://formspree.io/f/mgaaajej'};
-const PRODUCTS = [{id:'lafrance3',name:'ラ・フランス 3kg 化粧箱',price:3630}];
+const DEFAULT_PRODUCTS=[{id:'lafrance3',name:'ラ・フランス 3kg 化粧箱',price:3600,image:'assets/lafrance-orchard.jpg',detailImage:'assets/lafrance-box.jpg',available:true}];
+let PRODUCTS=DEFAULT_PRODUCTS.map(p=>({...p}));
+const SETTINGS_KEY='order-catalog-draft-v1',PASSWORD_KEY='order-settings-password-v1';
+let adminUnlocked=false,previewMode=false;
+function validateProducts(items){
+ if(!Array.isArray(items)||items.length<1||items.length>50)throw new Error('商品は1〜50件にしてください。');
+ const ids=new Set();
+ const result=items.map(p=>{
+  if(!p||typeof p.id!=='string'||!/^[a-zA-Z0-9_-]{1,80}$/.test(p.id)||ids.has(p.id))throw new Error('商品IDが重複または不正です。');
+  ids.add(p.id);
+  if(typeof p.name!=='string'||!p.name.trim()||p.name.length>100||!Number.isSafeInteger(p.price)||p.price<1||p.price>1000000)throw new Error('商品名と単価（1〜1,000,000円）を確認してください。');
+  const safeImage=src=>typeof src==='string'&&(/^(assets\/[a-zA-Z0-9._/-]+|https:\/\/[^\s]+|data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+)$/.test(src))?src:'';
+  return {id:p.id,name:p.name.trim(),price:p.price,available:p.available!==false,image:safeImage(p.image),detailImage:safeImage(p.detailImage)};
+ });
+ if(!result.some(p=>p.available))throw new Error('販売中の商品を1件以上にしてください。');
+ return result;
+}
+try{if(window.ORDER_CATALOG?.products)PRODUCTS=validateProducts(window.ORDER_CATALOG.products);}catch{console.warn('公開商品設定を読み込めないため初期値を使用します。');}
+
 // 山形県（南東北）発・通常便80サイズ・税込・現金基本運賃。1箱1個口。
 // 出典 https://www.kuronekoyamato.co.jp/ytc/search/estimate/ichiran.html（2026-10-27確認）
 const REGIONS = [
@@ -70,8 +100,35 @@ const yen=n=>new Intl.NumberFormat('ja-JP',{style:'currency',currency:'JPY',maxi
 const cards=()=>[...document.querySelectorAll('.destination')];
 const normalize=s=>s.normalize('NFKC').trim();
 const postalValue=input=>normalize(input.value).replace(/[-ー－\s]/g,'');
+
+function fillProductOptions(select){
+ const previous=select.value;select.replaceChildren();
+ PRODUCTS.forEach(p=>{const option=new Option(p.available?p.name:p.name+'（準備中）',p.id);option.disabled=!p.available;select.add(option);});
+ const coming=new Option('その他の商品：ただいま準備中','coming-soon');coming.disabled=true;select.add(coming);
+ select.value=PRODUCTS.some(p=>p.id===previous&&p.available)?previous:PRODUCTS.find(p=>p.available).id;
+}
+function refreshProductImage(card,product){
+ const box=$('.product-mini',card),img=$('img',box);box.hidden=!product;
+ if(!product)return;img.hidden=!product.image;if(product.image)img.src=product.image;img.alt=product.name;
+ $('span',box).textContent=product.name+' ／ '+yen(product.price)+'（税込）';
+}
+function showProduct(product){
+ const box=$('#productShowcase');box.hidden=!product;if(!product)return;
+ $('#showcaseName').textContent=product.name;$('#showcasePrice').textContent=yen(product.price);
+ const image=$('#showcaseImage');image.hidden=!product.image;if(product.image)image.src=product.image;image.alt=product.name;
+ $('#boxDetail').hidden=!product.detailImage;
+ if(product.detailImage){$('#boxDetail img').src=product.detailImage;$('#boxDetail img').alt=product.name+'の梱包';$('#boxDetail span').textContent=product.name;}
+ box.style.gridTemplateColumns=product.image?'':'1fr';
+}
+function applyCatalog(items,preview){
+ PRODUCTS=validateProducts(items);previewMode=preview;
+ cards().forEach(card=>fillProductOptions(field(card,'product')));
+ pendingRequest=null;update();showProduct(PRODUCTS.find(p=>p.id===field(cards()[0],'product').value));
+ $('#adminPreview').hidden=!preview;
+}
+
 function calculation(card){
- const product=PRODUCTS.find(p=>p.id===field(card,'product').value);
+ const product=PRODUCTS.find(p=>p.id===field(card,'product').value&&p.available);
  const quantity=Number(field(card,'quantity').value);
  const validQuantity=Number.isInteger(quantity)&&quantity>=1&&quantity<=999;
  const pickup=field(card,'pickup').checked;
@@ -79,7 +136,7 @@ function calculation(card){
  const region=REGIONS.find(r=>r.prefs.some(p=>address.startsWith(p)));
  const prefecture=region?.prefs.find(p=>address.startsWith(p));
  const rate=pickup?0:prefecture===CONFIG.origin?CONFIG.samePrefectureRate:region?.rate;
- const shipping=validQuantity&&rate!==undefined?rate*quantity:null;
+ const shipping=product&&validQuantity&&rate!==undefined?rate*quantity:null;
  return {product,quantity,pickup,region,prefecture,rate,shipping,total:shipping===null?null:product.price*quantity+shipping};
 }
 function update(){
@@ -88,7 +145,8 @@ function update(){
   $('.destination-title',card).textContent=`送付先 ${i+1}`;
   $('.remove',card).hidden=cards().length===1;
   const c=calculation(card);
-  field(card,'unit').value=yen(c.product.price);
+  field(card,'unit').value=c.product?yen(c.product.price):'—';
+  refreshProductImage(card,c.product);
   $('.date-field',card).hidden=c.pickup;
   field(card,'date').disabled=c.pickup;
   for(const key of ['postal','address'])field(card,key).required=!c.pickup;
@@ -144,9 +202,10 @@ function addDestination(){
  const card=$('#destinationTemplate').content.firstElementChild.cloneNode(true);
  const id=++destinationId;
  card.querySelectorAll('input,select').forEach(input=>{input.autocomplete=`section-destination${id} ${ {postal:'postal-code',person:'name',address:'street-address',phone:'tel'}[input.name]||'off'}`;if(!['postal','person','address','phone'].includes(input.name))input.autocomplete='off';});
- PRODUCTS.forEach(p=>field(card,'product').add(new Option(p.name,p.id)));
+ fillProductOptions(field(card,'product'));
+ field(card,'product').addEventListener('change',()=>{showProduct(PRODUCTS.find(p=>p.id===field(card,'product').value));});
  const today=new Date();today.setMinutes(today.getMinutes()-today.getTimezoneOffset());field(card,'date').min=today.toISOString().slice(0,10);
- $('.remove',card).addEventListener('click',()=>{card.remove();update();});
+ $('.remove',card).addEventListener('click',()=>{card.remove();pendingRequest=null;update();});
  $('#destinations').append(card);setupPostal(card);update();
  return card;
 }
@@ -202,6 +261,6 @@ $('#orderForm').addEventListener('submit',async event=>{
   $('#status').textContent=error.confirmedFailure?error.message:'受付結果を確認できませんでした。注文が届いている可能性があります。重複を避けるため、照会番号 '+pendingRequest.requestId+' を控えてお問い合わせください。';
  }finally{submitting=false;}
 });
-setupPostal($('#sender'));addDestination();
-</script></main></body></html>
+setupPostal($('#sender'));addDestination();showProduct(PRODUCTS.find(p=>p.available));
+</script><script src="admin.js"></script><footer class="footer-note">ご注文内容をご確認のうえ、送信してください。</footer></main></body></html>
 
